@@ -1,0 +1,37 @@
+{
+  "name": "veda-transcriber",
+  "version": "1.0.0",
+  "description": "A transcribing app to glorify our great Gurus!",
+  "main": "app.js",
+  "dependencies": {
+    "@types/express": "^4.17.7",
+    "@types/node": "^14.0.25",
+    "express": "^4.17.1",
+    "fontsource-roboto": "^2.2.3",
+    "mongoose": "^5.9.25",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^3.4.1",
+    "styled-components": "^5.1.1",
+    "typescript": "^3.7.5"
+  },
+  "devDependencies": {
+    "concurrently": "^5.2.0",
+    "nodemon": "^2.0.4"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "server": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nortimg/veda-transcriber.git"
+  },
+  "author": "Liao Ha",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nortimg/veda-transcriber/issues"
+  },
+  "homepage": "https://github.com/nortimg/veda-transcriber#readme"
+}
