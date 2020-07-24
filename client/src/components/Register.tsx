@@ -51,18 +51,21 @@ export const Register: React.FC<IRegisterProps> = () => {
                             <TextField
                                 fullWidth
                                 label="Ваше кармическое ФИО"
+                                name="name"
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
                                 fullWidth
                                 label="E-mail"
+                                name="email"
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
                                 fullWidth
                                 label="Никнейм / Духовное имя (на латинице)"
+                                name="nickname"
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -70,6 +73,7 @@ export const Register: React.FC<IRegisterProps> = () => {
                                 fullWidth
                                 label="Придумайте пароль"
                                 type="password"
+                                name="password"
                             />
                         </Grid>
                         <Grid item xs={12}>
