@@ -1,4 +1,4 @@
-import { Schema, model, Types, Model, Document } from 'mongoose'
+import { Schema, model, Types, Document } from 'mongoose'
 import { ITranscription } from './Transcription'
 
 export interface IUser extends Document {
@@ -15,11 +15,6 @@ const schema = new Schema({
     name: { type: String, required: true },
     password: { type: String, required: true },
     transcriptions: [{ type: Types.ObjectId, ref: 'Transcription' }]
-})
-
-schema.pre<IUser>('save', function (next: Function) {
-    const user = this 
-    next()
 })
 
 

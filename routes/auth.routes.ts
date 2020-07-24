@@ -1,8 +1,9 @@
-import { Router } from 'express'
+import { Router, Request, Response } from 'express'
 import bcrypt from 'bcryptjs'
-import { } from 'express-validator'
-import User, { IUser, IUserDocument, IUserModel } from '../models/User'
-import { stringify } from 'querystring'
+import jwt from 'jsonwebtoken'
+import config from 'config'
+import { check, validationResult } from 'express-validator'
+import User from '../models/User'
 const router = Router()
 
 // /api/auth/register
@@ -13,7 +14,7 @@ router.post(
         check('password', 'Min length of the password should be 6 characters')
             .isLength({ min: 6 })
     ],
-    async (req, res) => {
+    async (req: Request, res: Response) => {
         try {
             const errors = validationResult(req)
 
@@ -51,7 +52,7 @@ router.post(
         check('email', 'Enter a correct email').normalizeEmail().isEmail(),
         check('password', 'Enter the password').exists()
     ],
-    async (req, res) => {
+    async (req: Request, res: Response) => {
         try {
             const errors = validationResult(req)
 
@@ -71,6 +72,19 @@ router.post(
             }
 
             const isMatch = await bcrypt.compare(password, user.password)
+
+            if (!isMatch) {
+                return res.status(400).json({ message: 'Incorrect password' })
+            }
+
+            const token = jwt.sign(
+                { userID: user.id },
+                config.get('jwtSecret'),
+                { expiresIn: '1h' }
+            )
+
+            res.json({ token, userID: user.id })
+
         } catch (e) {
             res.status(500).json({ message: 'Something went wrong, try again' })
         }
