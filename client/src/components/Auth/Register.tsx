@@ -1,14 +1,35 @@
 import React from 'react'
-import { Typography, TextField, Grid, Button } from '@material-ui/core';
-import { Link } from 'react-router-dom';
-
+import { Typography, TextField, Grid, Button } from '@material-ui/core'
+import { Link } from 'react-router-dom'
 import { Form } from '../Form'
 import { FullHeightCard } from '../FullHeightCard'
 import { FullHeightGrid } from '../FullHeightGrid'
+import { connect } from 'react-redux'
+import { IState, IAction, textInputHandler, ITextInputHandlerPayload } from '../../redux/redux.helpers'
+import { IRegisterState, IRegisterAction } from '../../redux/auth/auth.reducer'
+import { register } from '../../redux/auth/auth.actions'
 
-interface IRegisterProps { }
+interface IRegisterProps extends IRegisterState {
+    register: (payload: IRegisterState) => IRegisterAction
+    textInputHandler: (payload: ITextInputHandlerPayload) => IAction
+}
 
-export const Register: React.FC<IRegisterProps> = () => {
+const Register: React.FC<IRegisterProps> = props => {
+    const submitHander = (event: React.FormEvent) => {
+        event.preventDefault()
+        console.log('SUBMIT')
+        // props.register({
+        // })
+    }
+
+    const inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+        event.preventDefault()
+        const { value } = event.target
+        props.textInputHandler({
+            [event.target.name]: value
+        })
+    }
+
     return (
         <FullHeightCard>
             <Typography
@@ -23,12 +44,13 @@ export const Register: React.FC<IRegisterProps> = () => {
                 justify="center"
                 alignContent="space-between"
             >
-                <Form>
+                <Form onSubmit={submitHander}>
                     <Grid item xs={12}>
                         <TextField
                             fullWidth
                             label="Ваше кармическое ФИО"
                             name="name"
+                            onInput={inputHandler}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -36,6 +58,7 @@ export const Register: React.FC<IRegisterProps> = () => {
                             fullWidth
                             label="E-mail"
                             name="email"
+                            onInput={inputHandler}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -43,6 +66,7 @@ export const Register: React.FC<IRegisterProps> = () => {
                             fullWidth
                             label="Никнейм / Духовное имя (на латинице)"
                             name="nickname"
+                            onInput={inputHandler}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -51,6 +75,7 @@ export const Register: React.FC<IRegisterProps> = () => {
                             label="Придумайте пароль"
                             type="password"
                             name="password"
+                            onInput={inputHandler}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -58,6 +83,7 @@ export const Register: React.FC<IRegisterProps> = () => {
                             fullWidth
                             label="Повторите пароль"
                             type="password"
+                            onInput={inputHandler}
                         />
                     </Grid>
                     <Grid container justify="space-between">
@@ -84,3 +110,11 @@ export const Register: React.FC<IRegisterProps> = () => {
         </FullHeightCard>
     )
 }
+
+const mapStateToProps = (state: IState): IRegisterState => state.auth
+const mapDispatchToProps = {
+    register, 
+    textInputHandler
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register)

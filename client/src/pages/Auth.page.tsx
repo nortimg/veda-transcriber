@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Register } from '../components/Auth/Register'
+import React from 'react'
+import Register from '../components/Auth/Register'
 import { Login } from '../components/Auth/Login'
 import { Switch, Route } from 'react-router-dom'
 import styled from 'styled-components'
@@ -14,23 +14,19 @@ const Wrapper = styled.section`
     height: 100%;
 `
 
-export const AuthPage: React.FC<IAuthPageProps> = () => {
+const AuthPage: React.FC<IAuthPageProps> = () => {
     return (
         <Wrapper>
             <Switch>
                 <Route path="/" exact>
-                    <Login
-                        authData={authData}
-                        setAuthData={setAuthData}
-                    />
+                    <Register />
                 </Route>
                 <Route path="/register" exact>
-                    <Register
-                        authData={authData}
-                        setAuthData={setAuthData}
-                    />
+                    <Register />
                 </Route>
             </Switch>
         </Wrapper>
     )
 }
+
+export default AuthPage

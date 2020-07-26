@@ -15,14 +15,8 @@
     "config": "^3.3.1",
     "express": "^4.17.1",
     "express-validator": "^6.6.0",
-    "fontsource-roboto": "^2.2.3",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.25",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "^3.4.1",
-    "styled-components": "^5.1.1",
     "typescript": "^3.7.5"
   },
   "devDependencies": {
@@ -31,7 +25,11 @@
   },
   "scripts": {
     "start": "node app.ts",
-    "server": "nodemon app.ts"
+    "server": "nodemon app.ts",
+    "client": "npm run start --prefix client",
+    "client:install": "npm i --prefix client",
+    "client:build": "npm run build --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "repository": {
     "type": "git",
