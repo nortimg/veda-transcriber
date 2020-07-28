@@ -6,14 +6,16 @@ import authRoutes from './routes/auth.routes'
 
 const app = express()
 
+app.use(express.json())
+
 app.use('/api/auth', authRoutes)
 
-const PORT = config.get('port')
+const PORT = config.get('port') || 5000
 
 async function start() {
     try {
         await mongoose.connect(config.get('mongoURI'), {
-            useNewUrlParser: true, 
+            useNewUrlParser: true,
             useCreateIndex: true,
             useUnifiedTopology: true
         })

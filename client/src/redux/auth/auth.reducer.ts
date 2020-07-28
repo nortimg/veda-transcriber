@@ -1,34 +1,21 @@
 import { IAction } from "../redux.helpers"
+import { IRegisterState, IRegisterAction, IAuthState } from "./auth.helpers"
 
-export type RegisterAction = 'AUTH/REGISTER' 
-
-export interface IRegisterState {
-    nickname: string 
-    password: string
-    name: string
-    email: string
+const initialState: IAuthState = {
+    register: {
+        nickname: '',
+        password: '',
+        name: '',
+        email: ''
+    }
 }
 
-const initialState: IRegisterState = {
-    nickname: '',
-    password: '',
-    name: '',
-    email: ''
-}
-
-export interface IRegisterAction {
-    type: RegisterAction
-    payload?: IRegisterState
-}
-
-
-
-export const authReducer = (state: IRegisterState = initialState, action: IRegisterAction | IAction): IRegisterState => {
+export const authReducer = (state: IAuthState = initialState, action: IRegisterAction | IAction): IAuthState => {
     switch (action.type) {
-        case 'AUTH/REGISTER': 
-            return state
-        case 'TEXT_INPUT': 
-            return {...state, ...action.payload}
+        case 'AUTH/REGISTER':
+            return { ...state, ...action.payload as IRegisterState }
+        case 'TEXT_INPUT':
+            return { ...state, register: { ...state.register, ...action.payload } }
         default: return state
     }
 }

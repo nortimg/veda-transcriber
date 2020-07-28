@@ -6,7 +6,7 @@ import { FullHeightCard } from '../FullHeightCard'
 import { FullHeightGrid } from '../FullHeightGrid'
 import { connect } from 'react-redux'
 import { IState, IAction, textInputHandler, ITextInputHandlerPayload } from '../../redux/redux.helpers'
-import { IRegisterState, IRegisterAction } from '../../redux/auth/auth.reducer'
+import { IRegisterState, IRegisterAction } from '../../redux/auth/auth.helpers'
 import { register } from '../../redux/auth/auth.actions'
 
 interface IRegisterProps extends IRegisterState {
@@ -15,11 +15,12 @@ interface IRegisterProps extends IRegisterState {
 }
 
 const Register: React.FC<IRegisterProps> = props => {
+
+
     const submitHander = (event: React.FormEvent) => {
         event.preventDefault()
-        console.log('SUBMIT')
-        // props.register({
-        // })
+        const { email, name, nickname, password } = props
+        props.register({ email, name, nickname, password })
     }
 
     const inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,6 +84,7 @@ const Register: React.FC<IRegisterProps> = props => {
                             fullWidth
                             label="Повторите пароль"
                             type="password"
+                            name="repeatPassword"
                             onInput={inputHandler}
                         />
                     </Grid>
@@ -100,6 +102,7 @@ const Register: React.FC<IRegisterProps> = props => {
                             <Button
                                 variant="contained"
                                 color="primary"
+                                type="submit"
                             >
                                 Зарегистрироваться
                                 </Button>
@@ -111,9 +114,9 @@ const Register: React.FC<IRegisterProps> = props => {
     )
 }
 
-const mapStateToProps = (state: IState): IRegisterState => state.auth
+const mapStateToProps = (state: IState): IRegisterState => state.auth.register
 const mapDispatchToProps = {
-    register, 
+    register,
     textInputHandler
 }
 

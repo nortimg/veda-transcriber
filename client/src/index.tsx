@@ -7,6 +7,7 @@ import App from './App'
 import * as serviceWorker from './serviceWorker'
 import { GlobalStyles } from './GlobalStyles';
 import { rootReducer } from './redux/redux';
+import { registerWatcher } from './redux/auth/auth.sagas'
 
 const saga = createSagaMiddleware()
 
@@ -15,6 +16,7 @@ const store = createStore(rootReducer, compose(
   (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__()
 ))
 
+saga.run(registerWatcher)
 
 render(
   <React.StrictMode>

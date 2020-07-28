@@ -1,9 +1,9 @@
-import { IRegisterState } from "./auth/auth.reducer";
+import { IAuthState } from "./auth/auth.helpers";
 
 export type Action = 'TEXT_INPUT'
 
 export interface IState {
-    auth: IRegisterState
+    auth: IAuthState
 }
 
 export interface ITextInputHandlerPayload {
