@@ -8,10 +8,11 @@ import { connect } from 'react-redux'
 import { IState, IAction, textInputHandler, ITextInputHandlerPayload } from '../../redux/redux.helpers'
 import { IRegisterState, IRegisterAction } from '../../redux/auth/auth.helpers'
 import { register } from '../../redux/auth/auth.actions'
+import { useTextInput } from '../../hooks/input.hook'
+import { IUseTextInputProps } from '../../helpers'
 
-interface IRegisterProps extends IRegisterState {
+interface IRegisterProps extends IRegisterState, IUseTextInputProps {
     register: (payload: IRegisterState) => IRegisterAction
-    textInputHandler: (payload: ITextInputHandlerPayload) => IAction
 }
 
 const Register: React.FC<IRegisterProps> = props => {
@@ -23,13 +24,8 @@ const Register: React.FC<IRegisterProps> = props => {
         props.register({ email, name, nickname, password })
     }
 
-    const inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-        event.preventDefault()
-        const { value } = event.target
-        props.textInputHandler({
-            [event.target.name]: value
-        })
-    }
+
+    const inputHandler = useTextInput('AUTH/REGISTER/TEXT_INPUT', props)
 
     return (
         <FullHeightCard>
