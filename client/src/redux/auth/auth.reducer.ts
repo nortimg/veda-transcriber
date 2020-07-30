@@ -1,4 +1,3 @@
-import { IAction, TextInputAction, ITextInputAction } from "../redux.helpers"
 import { IRegisterState, IRegisterAction, IAuthState, ILoginAction, ILoginState, RegisterStateField, LoginStateField } from "./auth.helpers"
 
 const initialState: IAuthState = {
@@ -14,7 +13,7 @@ const initialState: IAuthState = {
     }
 }
 
-export const authReducer = (state: IAuthState = initialState, action: IRegisterAction | ILoginAction | ITextInputAction): IAuthState => {
+export const authReducer = (state: IAuthState = initialState, action: IRegisterAction | ILoginAction): IAuthState => {
     switch (action.type) {
         case 'AUTH/REGISTER':
             return {
@@ -28,7 +27,7 @@ export const authReducer = (state: IAuthState = initialState, action: IRegisterA
                 ...state,
                 register: {
                     ...state.register,
-                    [field]: action.payload[field]
+                    [field]: (action.payload as IRegisterState)[field]
                 }
             }
         }
@@ -38,7 +37,7 @@ export const authReducer = (state: IAuthState = initialState, action: IRegisterA
                 ...state,
                 login: {
                     ...state.login,
-                    [field]: action.payload[field]
+                    [field]: (action.payload as ILoginState)[field]
                 }
             }
         }

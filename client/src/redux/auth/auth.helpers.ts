@@ -1,8 +1,7 @@
-export type RegisterAction = 'AUTH/REGISTER' 
-export type LoginAction = 'AUTH/LOGIN'
+export type AuthAction = 'AUTH/REGISTER' | 'AUTH/LOGIN' | 'AUTH/REGISTER/TEXT_INPUT' | 'AUTH/LOGIN/TEXT_INPUT'
 
-export type RegisterStateField = 'nickname' | 'password' | 'name' | 'email' | ''
-export type LoginStateField = 'password' | 'email' | ''
+export type RegisterStateField = 'nickname' | 'password' | 'name' | 'email'
+export type LoginStateField = 'password' | 'email' 
 
 export interface IAuthState {
     register: IRegisterState
@@ -10,15 +9,15 @@ export interface IAuthState {
 }
 
 export interface IRegisterState {
-    nickname: RegisterStateField 
-    password: RegisterStateField
-    name: RegisterStateField
-    email: RegisterStateField
+    nickname: string 
+    password: string 
+    name: string 
+    email: string
 }
 
 export interface IRegisterAction {
-    type: RegisterAction
-    payload?: IRegisterState
+    type: AuthAction
+    payload: IRegisterState
 }
 
 export interface ILoginState {
@@ -27,6 +26,6 @@ export interface ILoginState {
 }
 
 export interface ILoginAction {
-    type: LoginAction
-    payload?: ILoginState
+    type: AuthAction
+    payload: ILoginState
 }

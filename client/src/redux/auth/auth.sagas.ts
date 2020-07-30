@@ -1,5 +1,5 @@
 import { takeEvery, call, select } from 'redux-saga/effects'
-import { RegisterAction, IRegisterState, LoginAction, ILoginState } from './auth.helpers'
+import { IRegisterState, ILoginState, AuthAction } from './auth.helpers'
 import { IState } from '../redux.helpers'
 
 const getRegisterData = (state: IState): IRegisterState => state.auth.register
@@ -7,8 +7,8 @@ const getLoginData = (state: IState): ILoginState => state.auth.login
 
 
 export function* authWatcher() {
-    yield takeEvery<RegisterAction>('AUTH/REGISTER', registerWorker)
-    yield takeEvery<LoginAction>('AUTH/LOGIN', loginWorker)
+    yield takeEvery<AuthAction>('AUTH/REGISTER', registerWorker)
+    yield takeEvery<AuthAction>('AUTH/LOGIN', loginWorker)
 }
 
 export function* registerWorker() {
