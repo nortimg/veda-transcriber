@@ -4,6 +4,8 @@ export type AuthAction =
     | 'AUTH/REGISTER/TEXT_INPUT' 
     | 'AUTH/LOGIN/TEXT_INPUT'
     | 'AUTH/LOGIN/SUCCESS'
+    | 'AUTH/AUTHORIZE'
+    | 'AUTH/CHECK_AUTHORIZE'
 
 export type RegisterStateField = 'nickname' | 'password' | 'name' | 'email'
 export type LoginStateField = 'password' | 'email' 

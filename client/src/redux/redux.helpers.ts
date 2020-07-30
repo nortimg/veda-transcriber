@@ -1,6 +1,8 @@
-import { IAuthState } from "./auth/auth.helpers";
+import { IAuthState, AuthAction } from "./auth/auth.helpers";
 
-export type Action = string
+
+
+export type Action<T> = T
 
 export type TextInputAction = (
     'TEXT_INPUT'
@@ -16,17 +18,21 @@ export interface ITextInputHandlerPayload {
     [name: string]: string
 }
 
-export const textInputHandler = (type: TextInputAction, payload: ITextInputHandlerPayload): IAction => ({ type, payload })
+export interface IUseTextInputProps {
+    textInputHandler: (type: TextInputAction, payload: ITextInputHandlerPayload) => IAction<TextInputAction>
+}
 
-export interface ITextInputAction extends IAction {
+export const textInputHandler = (type: TextInputAction, payload: ITextInputHandlerPayload): ITextInputAction => ({ type, payload })
+
+export interface ITextInputAction extends IAction<TextInputAction> {
     type: TextInputAction
     payload: {
         [field: string]: string
     }
 }
 
-export interface IAction {
-    type: Action
+export interface IAction<T> {
+    type: Action<T>
     payload?: IActionPayload
 }
 export interface IActionPayload { }

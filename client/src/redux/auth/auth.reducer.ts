@@ -61,9 +61,16 @@ export const authReducer = (
             return {
                 ...state,
                 context: {
+                    ...(action.payload as IAuthContextState),
                     isAuthenticated: true,
-                    token: (action.payload as IAuthContextState).token,
-                    userID: (action.payload as IAuthContextState).userID
+                }
+            }
+        case 'AUTH/AUTHORIZE': 
+            return {
+                ...state, 
+                context: {
+                    ...state.context, 
+                    isAuthenticated: true
                 }
             }
         default: return state

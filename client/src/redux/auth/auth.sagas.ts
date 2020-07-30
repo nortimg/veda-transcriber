@@ -1,6 +1,6 @@
 import { takeEvery, call, select, put } from 'redux-saga/effects'
 
-import { IState } from '../redux.helpers'
+import { IState, Action, IAction } from '../redux.helpers'
 import {
     IRegisterState,
     ILoginState,
@@ -16,6 +16,7 @@ const getLoginData = (state: IState): ILoginState => state.auth.login
 export function* authWatcher() {
     yield takeEvery<AuthAction>('AUTH/REGISTER', registerWorker)
     yield takeEvery<AuthAction>('AUTH/LOGIN', loginWorker)
+    yield takeEvery<AuthAction>('AUTH/CHECK_AUTHORIZE', authorizeWorker)
 }
 
 export function* registerWorker() {
@@ -44,9 +45,10 @@ const sendRegisterData = async (body: IRegisterState) => {
 export function* loginWorker() {
     try {
         const loginData: ILoginState = yield select(getLoginData)
-        const json = yield call(() => sendLoginData(loginData))
+        const json: IAuthContextState = yield call(() => sendLoginData(loginData))
 
         if (json.token) {
+            localStorage.setItem('userData', JSON.stringify(json))
             yield put<IAuthAction<IAuthContextState>>({
                 type: 'AUTH/LOGIN/SUCCESS',
                 payload: json
@@ -69,5 +71,15 @@ async function sendLoginData(body: ILoginState) {
         return json
     } catch (e) {
         console.error(`Send Login Data Error: ${e}`)
+    }
+}
+
+export function* authorizeWorker() {
+    const data = JSON.parse(localStorage.getItem('userData') as string)
+    
+    // TODO: compare with server's token (security)
+    if (data?.token) {
+        console.log('data: ', data)
+        yield put<IAction<AuthAction>>({ type: 'AUTH/AUTHORIZE' })
     }
 }

@@ -1,16 +1,16 @@
 import React from 'react'
+import styled from 'styled-components'
 import { Typography, TextField, Grid, Button } from '@material-ui/core'
 import { Link } from 'react-router-dom';
 
 import { Form } from '../Form'
 import { FullHeightCard } from '../FullHeightCard'
-import styled from 'styled-components'
+
 import { ILoginState, IAuthAction } from '../../redux/auth/auth.helpers'
 import { connect } from 'react-redux'
-import { IState, textInputHandler } from '../../redux/redux.helpers'
+import { IState, textInputHandler, IUseTextInputProps } from '../../redux/redux.helpers'
 import { login } from '../../redux/auth/auth.actions'
 import { useTextInput } from '../../hooks/input.hook'
-import { IUseTextInputProps } from '../../helpers';
 
 interface ILoginProps extends ILoginState, IUseTextInputProps {
     login: (payload: ILoginState) => IAuthAction<ILoginState>

@@ -5,18 +5,17 @@ import { Form } from '../Form'
 import { FullHeightCard } from '../FullHeightCard'
 import { FullHeightGrid } from '../FullHeightGrid'
 import { connect } from 'react-redux'
-import { IState, IAction, textInputHandler, ITextInputHandlerPayload } from '../../redux/redux.helpers'
+import { IState, textInputHandler, IUseTextInputProps } from '../../redux/redux.helpers'
 import { IRegisterState, IAuthAction } from '../../redux/auth/auth.helpers'
 import { register } from '../../redux/auth/auth.actions'
 import { useTextInput } from '../../hooks/input.hook'
-import { IUseTextInputProps } from '../../helpers'
 
 interface IRegisterProps extends IRegisterState, IUseTextInputProps {
     register: (payload: IRegisterState) => IAuthAction<IRegisterState>
 }
 
 const Register: React.FC<IRegisterProps> = props => {
-
+    // TODO: Check password repeating
 
     const submitHander = (event: React.FormEvent) => {
         event.preventDefault()
