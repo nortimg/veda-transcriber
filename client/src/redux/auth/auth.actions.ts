@@ -1,5 +1,5 @@
-import { IRegisterAction, IRegisterState, ILoginState, ILoginAction } from "./auth.helpers"
+import { IRegisterState, ILoginState, IAuthAction, } from "./auth.helpers"
 
-export const register = (payload: IRegisterState): IRegisterAction => ({ type: 'AUTH/REGISTER', payload })
+export const register = (payload: IRegisterState): IAuthAction<IRegisterState> => ({ type: 'AUTH/REGISTER', payload })
 
-export const login = (payload: ILoginState): ILoginAction => ({ type: 'AUTH/LOGIN', payload })
+export const login = (payload: ILoginState): IAuthAction<ILoginState> => ({ type: 'AUTH/LOGIN', payload })

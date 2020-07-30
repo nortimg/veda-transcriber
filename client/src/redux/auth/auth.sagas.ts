@@ -1,10 +1,17 @@
-import { takeEvery, call, select } from 'redux-saga/effects'
-import { IRegisterState, ILoginState, AuthAction } from './auth.helpers'
+import { takeEvery, call, select, put } from 'redux-saga/effects'
+
 import { IState } from '../redux.helpers'
+import {
+    IRegisterState,
+    ILoginState,
+    AuthAction,
+    IAuthAction,
+    IAuthContextState
+} from './auth.helpers'
+
 
 const getRegisterData = (state: IState): IRegisterState => state.auth.register
 const getLoginData = (state: IState): ILoginState => state.auth.login
-
 
 export function* authWatcher() {
     yield takeEvery<AuthAction>('AUTH/REGISTER', registerWorker)
@@ -37,13 +44,20 @@ const sendRegisterData = async (body: IRegisterState) => {
 export function* loginWorker() {
     try {
         const loginData: ILoginState = yield select(getLoginData)
-        yield call(() => sendLoginData(loginData))
+        const json = yield call(() => sendLoginData(loginData))
+
+        if (json.token) {
+            yield put<IAuthAction<IAuthContextState>>({
+                type: 'AUTH/LOGIN/SUCCESS',
+                payload: json
+            })
+        }
     } catch (e) {
         console.error(`Login Error: ${e}`)
     }
 }
 
-const sendLoginData = async (body: ILoginState) => {
+async function sendLoginData(body: ILoginState) {
     try {
         const response = await fetch('/api/auth/login', {
             method: 'POST', body: JSON.stringify(body), headers: {
@@ -51,7 +65,8 @@ const sendLoginData = async (body: ILoginState) => {
             }
         })
 
-        return response.json()
+        const json = await response.json()
+        return json
     } catch (e) {
         console.error(`Send Login Data Error: ${e}`)
     }

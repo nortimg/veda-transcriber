@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { Form } from '../Form'
 import { FullHeightCard } from '../FullHeightCard'
 import styled from 'styled-components'
-import { ILoginState, ILoginAction } from '../../redux/auth/auth.helpers'
+import { ILoginState, IAuthAction } from '../../redux/auth/auth.helpers'
 import { connect } from 'react-redux'
 import { IState, textInputHandler } from '../../redux/redux.helpers'
 import { login } from '../../redux/auth/auth.actions'
@@ -13,7 +13,7 @@ import { useTextInput } from '../../hooks/input.hook'
 import { IUseTextInputProps } from '../../helpers';
 
 interface ILoginProps extends ILoginState, IUseTextInputProps {
-    login: (payload: ILoginState) => ILoginAction
+    login: (payload: ILoginState) => IAuthAction<ILoginState>
 }
 
 const HalfHeightGrid = styled(Grid)`

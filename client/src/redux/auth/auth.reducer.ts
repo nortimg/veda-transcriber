@@ -1,4 +1,12 @@
-import { IRegisterState, IRegisterAction, IAuthState, ILoginAction, ILoginState, RegisterStateField, LoginStateField } from "./auth.helpers"
+import {
+    IRegisterState,
+    IAuthState,
+    ILoginState,
+    RegisterStateField,
+    LoginStateField,
+    IAuthAction,
+    IAuthContextState
+} from "./auth.helpers"
 
 const initialState: IAuthState = {
     register: {
@@ -10,10 +18,18 @@ const initialState: IAuthState = {
     login: {
         email: '',
         password: ''
+    },
+    context: {
+        isAuthenticated: false,
+        token: null,
+        userID: null
     }
 }
 
-export const authReducer = (state: IAuthState = initialState, action: IRegisterAction | ILoginAction): IAuthState => {
+export const authReducer = (
+    state: IAuthState = initialState,
+    action: IAuthAction<IRegisterState | ILoginState | IAuthContextState>
+): IAuthState => {
     switch (action.type) {
         case 'AUTH/REGISTER':
             return {
@@ -41,6 +57,15 @@ export const authReducer = (state: IAuthState = initialState, action: IRegisterA
                 }
             }
         }
+        case 'AUTH/LOGIN/SUCCESS':
+            return {
+                ...state,
+                context: {
+                    isAuthenticated: true,
+                    token: (action.payload as IAuthContextState).token,
+                    userID: (action.payload as IAuthContextState).userID
+                }
+            }
         default: return state
     }
 }

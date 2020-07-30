@@ -1,7 +1,8 @@
 import React from 'react'
+import styled from 'styled-components'
+
 import { BrowserRouter as Router } from 'react-router-dom'
 import { useRoutes } from './hooks/routes.hook'
-import styled from 'styled-components'
 
 const Container = styled.main`
   width: 100%; 
@@ -9,6 +10,7 @@ const Container = styled.main`
 ` 
 
 function App() {
+
   const routes = useRoutes(false)
   return (
     <Router>
