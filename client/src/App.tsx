@@ -7,6 +7,8 @@ import { useRoutes } from './hooks/routes.hook'
 import { IState, IAction } from './redux/redux.helpers'
 import { checkAuthorize } from './redux/auth/auth.actions'
 import { AuthAction } from './redux/auth/auth.helpers'
+import Sidebar from './components/Sidebar'
+import Header from './components/Header/Header'
 
 interface IAppProps extends IState {
   checkAuthorize: () => IAction<AuthAction>
@@ -30,6 +32,8 @@ const App: React.FC<IAppProps> = props => {
     <Router>
       <Container>
         {routes}
+        <Sidebar />
+        <Header />
       </Container>
     </Router>
   );

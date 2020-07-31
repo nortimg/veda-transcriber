@@ -1,6 +1,5 @@
-import { IAuthState, AuthAction } from "./auth/auth.helpers";
-
-
+import { IAuthState } from "./auth/auth.helpers";
+import { IGlobalState } from "./global/global.helpers";
 
 export type Action<T> = T
 
@@ -12,6 +11,7 @@ export type TextInputAction = (
 
 export interface IState {
     auth: IAuthState
+    global: IGlobalState
 }
 
 export interface ITextInputHandlerPayload {
