@@ -31,9 +31,9 @@ const App: React.FC<IAppProps> = props => {
   return (
     <Router>
       <Container>
-        {routes}
-        <Sidebar />
         <Header />
+        <Sidebar />
+        {routes}
       </Container>
     </Router>
   );

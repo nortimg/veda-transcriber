@@ -1,5 +1,6 @@
 import { IAuthState } from "./auth/auth.helpers";
 import { IGlobalState } from "./global/global.helpers";
+import { ITranscriptionState } from "./transcription/transcription.helpers";
 
 export type Action<T> = T
 
@@ -12,6 +13,7 @@ export type TextInputAction = (
 export interface IState {
     auth: IAuthState
     global: IGlobalState
+    transcription: ITranscriptionState
 }
 
 export interface ITextInputHandlerPayload {

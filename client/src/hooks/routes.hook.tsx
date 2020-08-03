@@ -1,20 +1,21 @@
 import React from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
+
 import AuthPage from '../pages/Auth.page'
-import Header from '../components/Header/Header'
-import Sidebar from '../components/Sidebar'
+import TranscriptionPage from '../pages/Transcription.page'
 
 export const useRoutes = (isAuthenticated: boolean) => {
-    
     if (isAuthenticated) {
-        
         return (
             <Switch>
-                <Redirect to="/" />
+                <Route path="/transcription/:id">
+                    <TranscriptionPage />
+                </Route>
+                <Redirect to="/transcription/123" />
             </Switch>
         )
     }
-    console.log(isAuthenticated)    
+    
     return (
         <Switch>
             <Route path="/auth">

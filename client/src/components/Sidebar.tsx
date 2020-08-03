@@ -23,8 +23,8 @@ const Sidebar: React.FC<ISidebarProps> = props => {
         >
             <List>
                 <ListItem>
-                    <Link to="/new-transcription">
-                        Новая транскрипция
+                    <Link to="/transcription/123">
+                        Транскрипция 123
                     </Link>
                 </ListItem>
             </List>

@@ -26,4 +26,9 @@ export const GlobalStyles = createGlobalStyle`
     a {
         text-decoration: none;
     }
+
+    iframe {
+        border: 0;
+        outline: 0;
+    }
 `
