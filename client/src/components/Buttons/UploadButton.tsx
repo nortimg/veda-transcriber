@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from '@material-ui/core'
+import { Button, Icon } from '@material-ui/core'
 import styled from 'styled-components'
 
 interface IUploadButtonProps {
@@ -13,6 +13,8 @@ const File = styled.input.attrs(props => ({ type: 'File' }))`
 `
 
 const PointerLabel = styled.label`
+    display: flex;
+    align-items: center;
     cursor: pointer;
 `
 
@@ -20,10 +22,14 @@ export const UploadButton: React.FC<IUploadButtonProps> = props => {
     return (
         <Button
             variant="contained"
-            color="primary"
+            color="inherit"
         >
             <File id={props.id} />
             <PointerLabel htmlFor={props.id}>
+                <Icon>
+                    attach_file
+                </Icon>
+                &nbsp;
                 Файл
             </PointerLabel>
         </Button>

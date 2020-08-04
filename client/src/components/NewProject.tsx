@@ -1,12 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { Typography, Grid, TextField, Dialog, DialogTitle } from '@material-ui/core'
-import { UploadButton } from './UploadButton'
+import { Typography, Grid, TextField, Dialog, DialogTitle, Icon } from '@material-ui/core'
+import { UploadButton } from './Buttons/UploadButton'
 import { IState } from '../redux/redux.helpers'
 import { toggleNewProjectDialog } from '../redux/new-project/new-project.actions'
 import { INewProjectAction } from '../redux/new-project/new-project.helpers'
 import { FullWidthGrid } from './FullGrid'
+import { Row } from './Row'
+import { SuccessButton } from './Buttons/SuccessButton'
 
 interface INewTranscriptionProps {
     open: boolean
@@ -18,6 +20,18 @@ const ProjectInfo = styled.form`
     flex-direction: column;
     align-items: center;
     width: 100%;
+    height: 400px;
+    padding: 0 25px 20px;
+
+    ${Row} {
+        width: 100%;
+        margin-top: 10px;
+
+        &:last-child {
+            display: flex;
+            max-height: 40px;
+        }
+    }
 `
 const NewProjectDialog = styled(Dialog)`
     width: 900px;
@@ -37,28 +51,37 @@ const NewTranscription: React.FC<INewTranscriptionProps> = props => {
             fullWidth
         >
             <DialogTitle>
-                Новый проект
+                Создание нового проекта
             </DialogTitle>
 
             <FullWidthGrid container justify="center" >
                 <ProjectInfo>
-                    <Grid item xs={12}>
-                        <TextField label="Название проекта" />
-                    </Grid>
-                    <Grid item xs={12}>
+                    <Row>
+                        <TextField label="Название проекта" fullWidth />
+                    </Row>
+                    <Row>
                         <TextField
                             label="Описание проекта"
-                            fullWidth
+                            placeholder="Вкратце расскажите, о чём эта лекция"
                             multiline
-                            rows="5"
+                            fullWidth
                         />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <TextField label="Ссылка на YouTube" />
-                    </Grid>
-                    <Grid item xs={12}>
+                    </Row>
+                    <Row>
+                        <TextField 
+                            label="Ссылка на YouTube" 
+                            placeholder="Вдобавок к / вместо ссылки на Youtube можно прикрепить файл"
+                            fullWidth
+                        />
+                    </Row>
+                    <Row justify="space-between">
                         <UploadButton id="upload" />
-                    </Grid>
+                        <SuccessButton>
+                            Создать
+                            &nbsp;
+                            <Icon>send</Icon>
+                        </SuccessButton>
+                    </Row>
                 </ProjectInfo>
             </FullWidthGrid>
         </NewProjectDialog>
