@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import styled from 'styled-components'
 import Typography from '@material-ui/core/Typography'
 import { connect } from 'react-redux'
@@ -11,9 +11,7 @@ import { createEmbedYTVideo } from '../utils/YTEmbed'
 interface ITranscriptionPage extends ITranscriptionState {
 }
 
-const Wrapper = styled.section`
-    padding: 20px;
-`
+const Wrapper = styled.section``
 
 const YTVideo = styled.iframe`
     width: 100%;
@@ -84,22 +82,25 @@ const TranscriptionPage: React.FC<ITranscriptionPage> = props => {
         padding: 25% 0; 
     `
 
-    let Preview
-    if (props.sources.youtube) {
-        Preview = (
-            <PreviewWrapper>
-                <YTVideo
-                    src={createEmbedYTVideo(props.sources.youtube)}
-                />
-            </PreviewWrapper>
-        )
-    } else {
-        Preview = (
-            <PreviewWrapper>
-                <img src={props.teacher.imageURL} />
-            </PreviewWrapper>
-        )
-    }
+    const Preview = useMemo(() => {
+
+        if (props.sources.youtube) {
+            return (
+                <PreviewWrapper>
+                    <YTVideo
+                        src={createEmbedYTVideo(props.sources.youtube as string)}
+                    />
+                </PreviewWrapper>
+            )
+        } else {
+            return (
+                <PreviewWrapper>
+                    <img src={props.teacher.imageURL} />
+                </PreviewWrapper>
+            )
+        }
+    }, [props.sources.youtube])
+
 
     return (
         <Wrapper>

@@ -9,3 +9,8 @@ export const FullHeightGrid = styled(Grid)`
     margin-bottom: 0;
     flex-grow: 3; 
 `
+
+export const FullWidthGrid = styled(Grid)`
+    max-width: 100%;
+    width: 100%;
+`

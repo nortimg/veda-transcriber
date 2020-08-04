@@ -5,11 +5,13 @@ import { authWatcher } from './auth/auth.sagas'
 import { IState } from './redux.helpers'
 import { globalReducer } from './global/global.reducer'
 import { transcriptionReducer } from './transcription/transcription.reducer'
+import { newProjectReducer } from './new-project/new-project.reducer'
 
 export const rootReducer = combineReducers<IState>({
     auth: authReducer,
     global: globalReducer,
-    transcription: transcriptionReducer
+    transcription: transcriptionReducer,
+    newProject: newProjectReducer
 })
 
 export function* rootSaga() {

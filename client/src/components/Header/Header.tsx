@@ -13,6 +13,7 @@ import { IGlobalAction } from '../../redux/global/global.helpers';
 
 interface IHeaderProps {
     isSidebarOpen: boolean
+    title: string
     toggleSidebar: () => IGlobalAction
 }
 
@@ -38,16 +39,6 @@ const Search = styled.form`
     width: 100%;
     position: relative;
     padding: 0 20px;
-
-    &:after {
-        content: '🔍';
-        display: block; 
-        width: 20px;
-        height: 20px;
-        position: absolute;
-        right: 0; 
-        transform: translateX(-100%);
-    }
 `
 
 const Burger = IconButton
@@ -68,14 +59,14 @@ const Header: React.FC<IHeaderProps> = props => {
                 </Icon>
             </Burger>
             <Search>
-                <TextField label="Search" />
+                <TextField label="Search" type="search" />
             </Search>
             <AccountBox />
         </Wrapper>
     )
 }
 
-const mapStateToProps = (props: IState) => ({ isSidebarOpen: props.global.isSidebarOpen })
+const mapStateToProps = (props: IState) => ({ isSidebarOpen: props.global.isSidebarOpen, title: props.global.pageTitle })
 const mapDispatchToProps = {
     toggleSidebar
 }

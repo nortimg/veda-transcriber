@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-
 import { BrowserRouter as Router } from 'react-router-dom'
+
+import Sidebar from './components/Sidebar'
+import Header from './components/Header/Header'
+import NewProject from './components/NewProject'
 import { useRoutes } from './hooks/routes.hook'
 import { IState, IAction } from './redux/redux.helpers'
 import { checkAuthorize } from './redux/auth/auth.actions'
 import { AuthAction } from './redux/auth/auth.helpers'
-import Sidebar from './components/Sidebar'
-import Header from './components/Header/Header'
+
 
 interface IAppProps extends IState {
   checkAuthorize: () => IAction<AuthAction>
@@ -34,6 +36,7 @@ const App: React.FC<IAppProps> = props => {
         <Header />
         <Sidebar />
         {routes}
+        <NewProject />
       </Container>
     </Router>
   );

@@ -2,16 +2,16 @@ import React from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 
 import AuthPage from '../pages/Auth.page'
-import TranscriptionPage from '../pages/Transcription.page'
+import ProjectPage from '../pages/Project.page'
 
 export const useRoutes = (isAuthenticated: boolean) => {
     if (isAuthenticated) {
         return (
             <Switch>
                 <Route path="/transcription/:id">
-                    <TranscriptionPage />
+                    <ProjectPage />
                 </Route>
-                <Redirect to="/transcription/123" />
+                <Redirect to="/new-transcription" />
             </Switch>
         )
     }

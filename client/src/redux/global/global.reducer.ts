@@ -1,7 +1,8 @@
 import { IGlobalState, IGlobalAction } from "./global.helpers";
 
 const initialState: IGlobalState = {
-    isSidebarOpen: false
+    isSidebarOpen: false,
+    pageTitle: ''
 }
 
 export const globalReducer = (state: IGlobalState = initialState, action: IGlobalAction): IGlobalState => {
