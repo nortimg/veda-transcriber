@@ -20,7 +20,7 @@ const ProjectInfo = styled.form`
     flex-direction: column;
     align-items: center;
     width: 100%;
-    height: 400px;
+    min-height: 400px;
     padding: 0 25px 20px;
 
     ${Row} {
@@ -30,6 +30,8 @@ const ProjectInfo = styled.form`
         &:last-child {
             display: flex;
             max-height: 40px;
+            margin-top: auto; 
+            margin-bottom: 0;
         }
     }
 `
@@ -38,10 +40,26 @@ const NewProjectDialog = styled(Dialog)`
     margin: 0 auto;
 `
 
+// function validateProjectData(data) {
+
+// }
 
 const NewTranscription: React.FC<INewTranscriptionProps> = props => {
     const handleClose = () => {
         props.toggleNewProjectDialog()
+    }
+
+    const createProject = async (event: React.FormEvent<HTMLFormElement>) => {
+        try {
+            event.preventDefault()
+            const $form = event.currentTarget
+            const formData = new FormData($form)
+
+            const response = await fetch('/api/transcription/upload', { method: 'POST', body: formData })
+            console.log(await response.json())
+        } catch (e) {
+            console.error(`New project creation error: ${e}`)
+        }
     }
 
     return (
@@ -55,9 +73,15 @@ const NewTranscription: React.FC<INewTranscriptionProps> = props => {
             </DialogTitle>
 
             <FullWidthGrid container justify="center" >
-                <ProjectInfo>
+                <ProjectInfo
+                    onSubmit={createProject}
+                >
                     <Row>
-                        <TextField label="Название проекта" fullWidth />
+                        <TextField
+                            label="Название проекта"
+                            fullWidth
+                            name="title"
+                        />
                     </Row>
                     <Row>
                         <TextField
@@ -65,18 +89,25 @@ const NewTranscription: React.FC<INewTranscriptionProps> = props => {
                             placeholder="Вкратце расскажите, о чём эта лекция"
                             multiline
                             fullWidth
+                            name="description"
                         />
                     </Row>
                     <Row>
-                        <TextField 
-                            label="Ссылка на YouTube" 
+                        <TextField
+                            label="Ссылка на YouTube"
                             placeholder="Вдобавок к / вместо ссылки на Youtube можно прикрепить файл"
                             fullWidth
+                            name="youtubeURL"
                         />
                     </Row>
-                    <Row justify="space-between">
-                        <UploadButton id="upload" />
-                        <SuccessButton>
+                    <Row container justify="space-between">
+                        <UploadButton
+                            id="upload"
+                            name="file"
+                        />
+                        <SuccessButton
+                            type="submit"
+                        >
                             Создать
                             &nbsp;
                             <Icon>send</Icon>

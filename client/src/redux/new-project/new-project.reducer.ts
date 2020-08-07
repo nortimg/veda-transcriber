@@ -1,7 +1,12 @@
 import { INewProjectState, INewProjectAction } from "./new-project.helpers";
 
 const initialState: INewProjectState = {
-    isDialogOpen: false
+    isDialogOpen: false,
+    info: {
+        description: '',
+        name: '',
+        sources: {}
+    }
 }
 
 export const newProjectReducer = (state: INewProjectState = initialState, action: INewProjectAction): INewProjectState => {

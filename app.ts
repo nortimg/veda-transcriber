@@ -3,12 +3,14 @@ import config from 'config'
 import mongoose from 'mongoose'
 
 import authRoutes from './routes/auth.routes'
+import transcriptionRoutes from './routes/transcription.routes'
 
 const app = express()
 
 app.use(express.json())
 
 app.use('/api/auth', authRoutes)
+app.use('/api/transcription', transcriptionRoutes)
 
 const PORT = config.get('port') || 5000
 

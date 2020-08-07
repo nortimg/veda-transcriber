@@ -4,9 +4,10 @@ import styled from 'styled-components'
 
 interface IUploadButtonProps {
     id: string
+    name: string
 }
 
-const File = styled.input.attrs(props => ({ type: 'File' }))`
+const File = styled.input.attrs(props => ({ type: 'file', name: props.name }))`
     width: 0; 
     height: 0;
     visibility: hidden; 
@@ -24,7 +25,7 @@ export const UploadButton: React.FC<IUploadButtonProps> = props => {
             variant="contained"
             color="inherit"
         >
-            <File id={props.id} />
+            <File id={props.id} name={props.name} />
             <PointerLabel htmlFor={props.id}>
                 <Icon>
                     attach_file
