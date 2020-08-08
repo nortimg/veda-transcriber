@@ -1,6 +1,6 @@
 import { takeEvery, call, select, put } from 'redux-saga/effects'
 
-import { IState, Action, IAction } from '../redux.helpers'
+import { IState, IAction } from '../redux.helpers'
 import {
     IRegisterState,
     ILoginState,
@@ -19,7 +19,7 @@ export function* authWatcher() {
     yield takeEvery<AuthAction>('AUTH/CHECK_AUTHORIZE', authorizeWorker)
 }
 
-export function* registerWorker() {
+function* registerWorker() {
     try {
         const registerData: IRegisterState = yield select(getRegisterData)
         yield call(() => sendRegisterData(registerData))

@@ -8,7 +8,8 @@ import { FullHeightCard } from '../FullHeightCard'
 
 import { ILoginState, IAuthAction } from '../../redux/auth/auth.helpers'
 import { connect } from 'react-redux'
-import { IState, textInputHandler, IUseTextInputProps } from '../../redux/redux.helpers'
+import { IState, IUseTextInputProps } from '../../redux/redux.helpers'
+import { textInputHandler } from '../../redux/redux.actions'
 import { login } from '../../redux/auth/auth.actions'
 import { useTextInput } from '../../hooks/input.hook'
 

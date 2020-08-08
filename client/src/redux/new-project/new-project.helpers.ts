@@ -1,17 +1,43 @@
 import { IAction } from "../redux.helpers";
 
-export interface INewProjectState {
-    isDialogOpen: boolean
-    info: {
-        name: string
-        description: string 
-        sources: {
-            youtubeURL?: string
-            file?: Buffer
-        }
-    }
+export enum NewProjectInfoFields {
+    TITLE = 'title',
+    DESCRIPTION = 'description',
+    YOUTUBEURL = 'youtubeURL',
+    FILE = 'file'
 }
 
-export type NewProjectAction = 'NEW_PROJECT/CREATE_NEW_PROJECT' | 'NEW_PROJECT/TOGGLE_DIALOG'
+export type NewProjectSources = {
+    youtubeURL: string
+    file?: File
+} | {
+    youtubeURL?: string
+    file: File
+} | {
+    youtubeURL: string
+    file: File
+}
 
-export interface INewProjectAction extends IAction<NewProjectAction> {}
+export interface INewProjectInfo {
+    title: string
+    description: string
+    sources: NewProjectSources
+}
+
+export interface INewProjectState {
+    isDialogOpen: boolean
+    info: INewProjectInfo
+}
+
+export type NewProjectAction = (
+    'NEW_PROJECT/CREATE_NEW_PROJECT'
+    | 'NEW_PROJECT/TOGGLE_DIALOG'
+    | 'NEW_PROJECT/TEXT_INPUT'
+    | 'NEW_PROJECT/UPLOAD_FILE'
+)
+
+export interface INewProjectAction extends IAction<NewProjectAction> {
+    payload?: {
+        [key in NewProjectInfoFields]: string
+    } | NewProjectSources
+}

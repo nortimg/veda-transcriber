@@ -6,6 +6,7 @@ import { IState } from './redux.helpers'
 import { globalReducer } from './global/global.reducer'
 import { transcriptionReducer } from './transcription/transcription.reducer'
 import { newProjectReducer } from './new-project/new-project.reducer'
+import { newProjectWatcher } from './new-project/new-project.sagas'
 
 export const rootReducer = combineReducers<IState>({
     auth: authReducer,
@@ -16,6 +17,7 @@ export const rootReducer = combineReducers<IState>({
 
 export function* rootSaga() {
     yield all([
-        authWatcher()
+        authWatcher(),
+        newProjectWatcher()
     ])
 }

@@ -5,10 +5,11 @@ import { Form } from '../Form'
 import { FullHeightCard } from '../FullHeightCard'
 import { FullHeightGrid } from '../FullGrid'
 import { connect } from 'react-redux'
-import { IState, textInputHandler, IUseTextInputProps } from '../../redux/redux.helpers'
+import { IState, IUseTextInputProps } from '../../redux/redux.helpers'
 import { IRegisterState, IAuthAction } from '../../redux/auth/auth.helpers'
 import { register } from '../../redux/auth/auth.actions'
 import { useTextInput } from '../../hooks/input.hook'
+import { textInputHandler } from '../../redux/redux.actions'
 
 interface IRegisterProps extends IRegisterState, IUseTextInputProps {
     register: (payload: IRegisterState) => IAuthAction<IRegisterState>

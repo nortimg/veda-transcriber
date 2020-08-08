@@ -9,6 +9,7 @@ export type TextInputAction = (
     'TEXT_INPUT'
     | 'AUTH/REGISTER/TEXT_INPUT'
     | 'AUTH/LOGIN/TEXT_INPUT'
+    | 'NEW_PROJECT/TEXT_INPUT'
 )
 
 export interface IState {
@@ -26,7 +27,6 @@ export interface IUseTextInputProps {
     textInputHandler: (type: TextInputAction, payload: ITextInputHandlerPayload) => IAction<TextInputAction>
 }
 
-export const textInputHandler = (type: TextInputAction, payload: ITextInputHandlerPayload): ITextInputAction => ({ type, payload })
 
 export interface ITextInputAction extends IAction<TextInputAction> {
     type: TextInputAction

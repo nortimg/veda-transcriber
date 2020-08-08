@@ -17,7 +17,6 @@ router.post(
     async (req: Request, res: Response) => {
         try {
             const errors = validationResult(req)
-            console.log('req.body: ', req.body)
             if (!errors.isEmpty()) {
                 return res.status(400).json({
                     errors: errors.array(),
@@ -35,7 +34,7 @@ router.post(
 
             const hashedPassword = await bcrypt.hash(password, 12)
             const user = new User({ email, password: hashedPassword, nickname, name })
-
+            
             await user.save()
 
             return res.status(201).json({ message: 'User was succesfully created' })

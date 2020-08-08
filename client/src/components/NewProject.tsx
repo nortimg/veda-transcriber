@@ -1,18 +1,21 @@
 import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { Typography, Grid, TextField, Dialog, DialogTitle, Icon } from '@material-ui/core'
-import { UploadButton } from './Buttons/UploadButton'
-import { IState } from '../redux/redux.helpers'
-import { toggleNewProjectDialog } from '../redux/new-project/new-project.actions'
+import { TextField, Dialog, DialogTitle, Icon } from '@material-ui/core'
+import UploadButton from './Buttons/UploadButton'
+import { IState, IUseTextInputProps } from '../redux/redux.helpers'
+import { toggleNewProjectDialog, createProject } from '../redux/new-project/new-project.actions'
 import { INewProjectAction } from '../redux/new-project/new-project.helpers'
 import { FullWidthGrid } from './FullGrid'
 import { Row } from './Row'
 import { SuccessButton } from './Buttons/SuccessButton'
+import { textInputHandler } from '../redux/redux.actions'
+import { useTextInput } from '../hooks/input.hook'
 
-interface INewTranscriptionProps {
+interface INewTranscriptionProps extends IUseTextInputProps {
     open: boolean
     toggleNewProjectDialog: () => INewProjectAction
+    createProject: () => INewProjectAction
 }
 
 const ProjectInfo = styled.form`
@@ -40,11 +43,9 @@ const NewProjectDialog = styled(Dialog)`
     margin: 0 auto;
 `
 
-// function validateProjectData(data) {
-
-// }
-
 const NewTranscription: React.FC<INewTranscriptionProps> = props => {
+    const inputHandler = useTextInput('NEW_PROJECT/TEXT_INPUT', props)
+
     const handleClose = () => {
         props.toggleNewProjectDialog()
     }
@@ -52,11 +53,7 @@ const NewTranscription: React.FC<INewTranscriptionProps> = props => {
     const createProject = async (event: React.FormEvent<HTMLFormElement>) => {
         try {
             event.preventDefault()
-            const $form = event.currentTarget
-            const formData = new FormData($form)
-
-            const response = await fetch('/api/transcription/upload', { method: 'POST', body: formData })
-            console.log(await response.json())
+            props.createProject()
         } catch (e) {
             console.error(`New project creation error: ${e}`)
         }
@@ -81,6 +78,7 @@ const NewTranscription: React.FC<INewTranscriptionProps> = props => {
                             label="Название проекта"
                             fullWidth
                             name="title"
+                            onInput={inputHandler}
                         />
                     </Row>
                     <Row>
@@ -90,6 +88,7 @@ const NewTranscription: React.FC<INewTranscriptionProps> = props => {
                             multiline
                             fullWidth
                             name="description"
+                            onInput={inputHandler}
                         />
                     </Row>
                     <Row>
@@ -98,6 +97,7 @@ const NewTranscription: React.FC<INewTranscriptionProps> = props => {
                             placeholder="Вдобавок к / вместо ссылки на Youtube можно прикрепить файл"
                             fullWidth
                             name="youtubeURL"
+                            onInput={inputHandler}
                         />
                     </Row>
                     <Row container justify="space-between">
@@ -121,7 +121,9 @@ const NewTranscription: React.FC<INewTranscriptionProps> = props => {
 
 const mapStateToProps = (state: IState) => ({ open: state.newProject.isDialogOpen })
 const mapDispatchToProps = {
-    toggleNewProjectDialog
+    toggleNewProjectDialog,
+    textInputHandler,
+    createProject
 }
 
 
