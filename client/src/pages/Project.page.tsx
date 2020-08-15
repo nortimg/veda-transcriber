@@ -3,12 +3,12 @@ import styled from 'styled-components'
 import Typography from '@material-ui/core/Typography'
 import { connect } from 'react-redux'
 import { IState } from '../redux/redux.helpers'
-import { ITranscriptionState } from '../redux/transcription/transcription.helpers'
+import { IProjectState } from '../redux/project/project.helpers'
 import { Menu, MenuItem, Grid, Button } from '@material-ui/core'
 import { createEmbedYTVideo } from '../utils/YTEmbed'
 
 
-interface ITranscriptionPage extends ITranscriptionState {
+interface IProjectPage extends IProjectState {
 }
 
 const Wrapper = styled.section``
@@ -29,15 +29,15 @@ const LectureAudio = styled.audio`
 
 `
 
-interface ITranscriptionPageLocalState {
+interface IProjectPageLocalState {
     versionMenu: {
         isOpen: boolean,
         anchorEl: HTMLButtonElement | null
     }
 }
 
-const TranscriptionPage: React.FC<ITranscriptionPage> = props => {
-    const [state, setState] = useState<ITranscriptionPageLocalState>({
+const ProjectPage: React.FC<IProjectPage> = props => {
+    const [state, setState] = useState<IProjectPageLocalState>({
         versionMenu: {
             isOpen: false,
             anchorEl: null
@@ -167,7 +167,7 @@ const TranscriptionPage: React.FC<ITranscriptionPage> = props => {
     )
 }
 
-const mapStateToProps = (state: IState) => state.transcription
+const mapStateToProps = (state: IState) => state.project
 const mapDispatchToProps = {}
 
-export default connect(mapStateToProps)(TranscriptionPage)
+export default connect(mapStateToProps)(ProjectPage)

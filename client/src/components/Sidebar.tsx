@@ -30,11 +30,11 @@ const Sidebar: React.FC<ISidebarProps> = props => {
             onClose={closeHandler}
         >
             <List>
-                <ListItem>
-                    <Link to="/transcription/123">
-                        Транскрипция 123
-                    </Link>
-                </ListItem>
+                <Link to="/projects">
+                    <ListItem button>
+                        Проекты
+                    </ListItem>
+                </Link>
                 <ListItem>
                     <Button
                         onClick={openNewProjectDialog}

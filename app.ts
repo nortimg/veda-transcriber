@@ -4,25 +4,15 @@ import mongoose from 'mongoose'
 import multer from 'multer'
 
 import authRoutes from './routes/auth.routes'
-import transcriptionRoutes from './routes/transcription.routes'
+import projectRoutes from './routes/project.routes'
+import { uploadMiddleware } from './storage/Storage'
 
 const app = express()
-
-const storageConfig = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, "uploads");
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname);
-    }
-})
-
-const upload = multer(({ storage: storageConfig })).single('file')
 
 app.use(express.json())
 
 app.use('/api/auth', authRoutes)
-app.use('/api/transcription', upload, transcriptionRoutes)
+app.use('/api/project', uploadMiddleware, projectRoutes)
 
 const PORT = config.get('port') || 5000
 

@@ -22,9 +22,8 @@ const sendNewProjectInfo = async (body: INewProjectInfo) => {
         const formData = new FormData()
         formData.append('title', body.title)
         formData.append('description', body.description)
-    
+        
         if (body.sources.file) {
-            console.log(true)
             formData.append('file', body.sources.file, body.title)
         }
 
@@ -32,11 +31,13 @@ const sendNewProjectInfo = async (body: INewProjectInfo) => {
             formData.append('youtubeURL', body.sources.youtubeURL)
         }
 
-        for (let [key, value] of formData) {
-            console.log(`${key}:${value}`)
-        }
+        const userID = JSON.parse(localStorage.getItem('userData') as string).userID
 
-        const response = await fetch('/api/transcription/upload', {
+        console.log(userID)
+
+        formData.append('userID', userID)
+
+        const response = await fetch('/api/project/upload', {
             method: 'POST', 
             body: formData
         })

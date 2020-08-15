@@ -18,6 +18,7 @@ export interface IAuthState {
 
 export interface IAuthContextState {
     token: null | string
+    email: null | string
     userID: null | string 
     isAuthenticated: boolean
 }

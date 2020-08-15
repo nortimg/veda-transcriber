@@ -67,8 +67,7 @@ async function sendLoginData(body: ILoginState) {
             }
         })
 
-        const json = await response.json()
-        return json
+        return await response.json()
     } catch (e) {
         console.error(`Send Login Data Error: ${e}`)
     }
@@ -79,7 +78,6 @@ export function* authorizeWorker() {
     
     // TODO: compare with server's token (security)
     if (data?.token) {
-        console.log('data: ', data)
         yield put<IAction<AuthAction>>({ type: 'AUTH/AUTHORIZE' })
     }
 }

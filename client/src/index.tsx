@@ -8,6 +8,7 @@ import * as serviceWorker from './serviceWorker'
 import { GlobalStyles } from './GlobalStyles';
 import { rootReducer, rootSaga } from './redux/redux';
 
+
 const saga = createSagaMiddleware()
 
 const store = createStore(rootReducer, compose(

@@ -22,7 +22,8 @@ const initialState: IAuthState = {
     context: {
         isAuthenticated: false,
         token: null,
-        userID: null
+        userID: null,
+        email: null
     }
 }
 
