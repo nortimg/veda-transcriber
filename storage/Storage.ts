@@ -3,7 +3,7 @@ import multer from 'multer'
 
 const storageConfig = multer.diskStorage({
     destination: (req, file, cb) => {
-        const destination = `storage/users/${req.body.userID}/`
+        const destination = `storage/users/${req.body.email}/`
         fs.mkdir(destination, () => {
             cb(
                 null, 

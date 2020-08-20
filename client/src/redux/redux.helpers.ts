@@ -2,6 +2,7 @@ import { IAuthState } from "./auth/auth.helpers";
 import { IGlobalState } from "./global/global.helpers";
 import { IProjectState } from "./project/project.helpers";
 import { INewProjectState } from "./new-project/new-project.helpers";
+import { IProjectsState } from "./projects/projects.helpers";
 
 export type Action<T> = T
 
@@ -15,6 +16,7 @@ export type TextInputAction = (
 export interface IState {
     auth: IAuthState
     global: IGlobalState
+    projects: IProjectsState
     project: IProjectState
     newProject: INewProjectState
 }
@@ -39,4 +41,5 @@ export interface IAction<T> {
     type: Action<T>
     payload?: IActionPayload
 }
+
 export interface IActionPayload { }

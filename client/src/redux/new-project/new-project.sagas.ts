@@ -22,23 +22,19 @@ const sendNewProjectInfo = async (body: INewProjectInfo) => {
         const formData = new FormData()
         formData.append('title', body.title)
         formData.append('description', body.description)
-        
-        if (body.sources.file) {
-            formData.append('file', body.sources.file, body.title)
-        }
 
+        const { email } = JSON.parse(localStorage.getItem('userData') as string)
+        formData.append('email', email)
         if (body.sources.youtubeURL) {
             formData.append('youtubeURL', body.sources.youtubeURL)
         }
 
-        const userID = JSON.parse(localStorage.getItem('userData') as string).userID
+        if (body.sources.file) {
+            formData.append('file', body.sources.file, body.title)
+        }
 
-        console.log(userID)
-
-        formData.append('userID', userID)
-
-        const response = await fetch('/api/project/upload', {
-            method: 'POST', 
+        const response = await fetch('/api/project/create', {
+            method: 'POST',
             body: formData
         })
 

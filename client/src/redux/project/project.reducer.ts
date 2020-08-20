@@ -1,8 +1,6 @@
-import path from 'path'
-import appRoot from 'app-root-path'
 import { IProjectState, IProjectAction } from "./project.helpers"
 
-
+// This data will replaced with id
 const initialState: IProjectState = {
     id: '1',
     title: 'Title',

@@ -76,7 +76,7 @@ const Login: React.FC<ILoginProps> = props => {
 
                         </Grid>
                         <Grid item>
-                            <Link to="/register">
+                            <Link to="/auth/register">
                                 <Button
                                     variant="contained"
                                 >

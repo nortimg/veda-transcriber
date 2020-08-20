@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
 
 import AuthPage from './pages/Auth.page'
+import ProjectsPage from './pages/Projects.page'
 import ProjectPage from './pages/Project.page'
 import Header from './components/Header/Header'
 import Sidebar from './components/Sidebar'
@@ -28,13 +29,16 @@ const Routes: React.FC<IRoutesProps> = ({ checkAuthorize, isAuthenticated }) => 
                 <Header />
                 <Sidebar />
                 <Switch>
-                    <Route path="/project/:id">
+                    <Route path="/projects" exact>
+                        <ProjectsPage />
+                    </Route>
+                    <Route path="/projects/:id">
                         <ProjectPage />
                     </Route>
-                    <Redirect to="/new-project" />
+                    <Redirect to="/projects" />
                 </Switch>
                 {/* Absolute positioned dialog window */}
-                <NewProjectDialog /> 
+                <NewProjectDialog />
             </>
         )
     }

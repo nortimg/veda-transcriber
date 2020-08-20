@@ -1,18 +1,18 @@
 import express from 'express'
 import config from 'config'
 import mongoose from 'mongoose'
-import multer from 'multer'
 
 import authRoutes from './routes/auth.routes'
 import projectRoutes from './routes/project.routes'
-import { uploadMiddleware } from './storage/Storage'
+import projectsRoutes from './routes/projects.routes'
 
 const app = express()
 
 app.use(express.json())
 
 app.use('/api/auth', authRoutes)
-app.use('/api/project', uploadMiddleware, projectRoutes)
+app.use('/api/project', projectRoutes)
+app.use('/api/projects', projectsRoutes)
 
 const PORT = config.get('port') || 5000
 

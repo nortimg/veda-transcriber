@@ -8,7 +8,7 @@ import { Menu, MenuItem, Grid, Button } from '@material-ui/core'
 import { createEmbedYTVideo } from '../utils/YTEmbed'
 
 
-interface IProjectPage extends IProjectState {
+interface IProjectPageProps extends IProjectState {
 }
 
 const Wrapper = styled.section``
@@ -36,7 +36,7 @@ interface IProjectPageLocalState {
     }
 }
 
-const ProjectPage: React.FC<IProjectPage> = props => {
+const ProjectPage: React.FC<IProjectPageProps> = props => {
     const [state, setState] = useState<IProjectPageLocalState>({
         versionMenu: {
             isOpen: false,
