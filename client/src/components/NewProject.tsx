@@ -11,6 +11,7 @@ import { Row } from './Row'
 import { SuccessButton } from './Buttons/SuccessButton'
 import { textInputHandler } from '../redux/redux.actions'
 import { useTextInput } from '../hooks/input.hook'
+import { useHistory } from 'react-router-dom'
 
 interface INewTranscriptionProps extends IUseTextInputProps {
     open: boolean
@@ -45,15 +46,19 @@ const NewProjectDialog = styled(Dialog)`
 
 const NewTranscription: React.FC<INewTranscriptionProps> = props => {
     const inputHandler = useTextInput('NEW_PROJECT/TEXT_INPUT', props)
+    const history = useHistory()
+
 
     const handleClose = () => {
-        props.toggleNewProjectDialog()
+        props.toggleNewProjectDialog()  
     }
 
-    const createProject = async (event: React.FormEvent<HTMLFormElement>) => {
+    const createProject = (event: React.FormEvent<HTMLFormElement>) => {
         try {
             event.preventDefault()
             props.createProject()
+            handleClose()
+            history.push('/projects/sss') // id of project
         } catch (e) {
             console.error(`New project creation error: ${e}`)
         }

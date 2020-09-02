@@ -19,10 +19,14 @@ export interface IProjectState {
         imageURL: string
         name: string
     }
+    durationInSeconds: number
 }
 
 // TODO: fix types
-export type ProjectAction = 'Project'
+export type ProjectAction = (
+    'PROJECT/GET_PROJECT'
+    | 'PROJECT/SET_PROJECT'
+)
 
 export interface IProjectAction extends IAction<ProjectAction> {
     payload: IProjectState

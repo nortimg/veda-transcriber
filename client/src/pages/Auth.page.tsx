@@ -18,13 +18,13 @@ const AuthPage: React.FC<IAuthPageProps> = () => {
     return (
         <Wrapper>
             <Switch>
-                <Route path="/auth/login">
+                <Route path="/">
                     <Login />
                 </Route>
-                <Route path="/auth/register">
+                <Route path="/register">
                     <Register />
                 </Route>
-                <Redirect to="/auth/login" />
+                <Redirect to="/" />
             </Switch>
         </Wrapper>
     )

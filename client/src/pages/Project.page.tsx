@@ -1,14 +1,17 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import styled from 'styled-components'
 import Typography from '@material-ui/core/Typography'
 import { connect } from 'react-redux'
-import { IState } from '../redux/redux.helpers'
-import { IProjectState } from '../redux/project/project.helpers'
+import { IState, IAction } from '../redux/redux.helpers'
+import { IProjectState, ProjectAction, IProjectAction } from '../redux/project/project.helpers'
 import { Menu, MenuItem, Grid, Button } from '@material-ui/core'
 import { createEmbedYTVideo } from '../utils/YTEmbed'
+import { getProject } from '../redux/project/project.actions'
+import { getIDfromURL } from '../utils/getIDfromURL'
 
 
 interface IProjectPageProps extends IProjectState {
+    getProject: (id: string) => IAction<ProjectAction>
 }
 
 const Wrapper = styled.section``
@@ -36,6 +39,7 @@ interface IProjectPageLocalState {
     }
 }
 
+
 const ProjectPage: React.FC<IProjectPageProps> = props => {
     const [state, setState] = useState<IProjectPageLocalState>({
         versionMenu: {
@@ -43,8 +47,6 @@ const ProjectPage: React.FC<IProjectPageProps> = props => {
             anchorEl: null
         }
     })
-
-
 
     const openVersionMenuHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
         setState({
@@ -69,9 +71,7 @@ const ProjectPage: React.FC<IProjectPageProps> = props => {
     }
 
     const versions = props.versions.map(v => (
-        <MenuItem
-
-        >
+        <MenuItem>
             {v.title}
         </MenuItem>
     ))
@@ -83,7 +83,6 @@ const ProjectPage: React.FC<IProjectPageProps> = props => {
     `
 
     const Preview = useMemo(() => {
-
         if (props.sources.youtube) {
             return (
                 <PreviewWrapper>
@@ -101,6 +100,11 @@ const ProjectPage: React.FC<IProjectPageProps> = props => {
         }
     }, [props.sources.youtube])
 
+
+    useEffect(() => {
+        const id = getIDfromURL()
+        props.getProject(id)
+    }, [])
 
     return (
         <Wrapper>
@@ -168,6 +172,8 @@ const ProjectPage: React.FC<IProjectPageProps> = props => {
 }
 
 const mapStateToProps = (state: IState) => state.project
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+    getProject
+}
 
-export default connect(mapStateToProps)(ProjectPage)
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectPage)

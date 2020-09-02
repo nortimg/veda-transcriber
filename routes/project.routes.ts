@@ -3,6 +3,8 @@ import Project, { IProjectModel, IProject } from '../models/Project'
 import { uploadMiddleware } from '../storage/Storage';
 import User from '../models/User';
 import { Types } from 'mongoose';
+import { Lecture } from '../core/Lecture';
+import path from 'path'
 
 const router = Router()
 
@@ -47,7 +49,7 @@ router.post('/create', uploadMiddleware, async (req: Request, res: Response) => 
             sources: {
                 filename: file.filename,
                 youtubeURL
-            }, 
+            },
             author: {
                 email,
                 id: authorID
@@ -60,6 +62,30 @@ router.post('/create', uploadMiddleware, async (req: Request, res: Response) => 
     } catch (e) {
         console.error(`Project Route error: ${e}`)
         return res.status(500).json({ message: 'Something went wrong, try again' })
+    }
+})
+
+// /api/project/transcribe
+router.post('/transcribe', async (req: Request, res: Response) => {
+    try {
+        // TODO: Replace email to userID everywhere it used
+        const projectID: string = req.body.projectID // !!!!
+
+        const project = await Project.findById(projectID)
+
+        if (!project) {
+            return res.status(500).json({ message: 'Unknown project id' })
+        }
+
+        const { email } = project.author
+
+        const filePath = path.resolve(__dirname, `../storage/users/${email}/${project.sources.filename}`)
+
+        console.log({ project, filePath })
+
+        return res.status(201).json({ message: 'The file was found and sent for recognizing' })
+    } catch (e) {
+        console.error(`Transcribe route error: ${e}`)
     }
 })
 

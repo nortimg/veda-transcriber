@@ -25,6 +25,7 @@ const sendNewProjectInfo = async (body: INewProjectInfo) => {
 
         const { email } = JSON.parse(localStorage.getItem('userData') as string)
         formData.append('email', email)
+        
         if (body.sources.youtubeURL) {
             formData.append('youtubeURL', body.sources.youtubeURL)
         }

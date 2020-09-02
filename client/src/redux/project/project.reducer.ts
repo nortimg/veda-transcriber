@@ -17,9 +17,14 @@ const initialState: IProjectState = {
         id: '1',
         imageURL: 'https://www.sevaashram.com/wp-content/uploads/2020/01/b-r-madhusudan-maharaj-1.jpg',
         name: 'Madhusudan Maharaj'
-    }
+    },
+    durationInSeconds: 3600
 }
 
 export const projectReducer = (state: IProjectState = initialState, action: IProjectAction) => {
-    return state
+    switch (action.type) {
+        case 'PROJECT/SET_PROJECT':
+            return { ...state, ...action.payload }
+        default: return state
+    }
 }

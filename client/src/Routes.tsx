@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
 
 import AuthPage from './pages/Auth.page'
@@ -14,7 +14,7 @@ import { checkAuthorize } from './redux/auth/auth.actions'
 
 
 interface IRoutesProps {
-    isAuthenticated: Boolean
+    isAuthenticated: boolean
     checkAuthorize: () => IAction<AuthAction>
 }
 
@@ -35,7 +35,6 @@ const Routes: React.FC<IRoutesProps> = ({ checkAuthorize, isAuthenticated }) => 
                     <Route path="/projects/:id">
                         <ProjectPage />
                     </Route>
-                    <Redirect to="/projects" />
                 </Switch>
                 {/* Absolute positioned dialog window */}
                 <NewProjectDialog />
@@ -45,10 +44,10 @@ const Routes: React.FC<IRoutesProps> = ({ checkAuthorize, isAuthenticated }) => 
 
     return (
         <Switch>
-            <Route path="/auth">
+            <Route path="/">
                 <AuthPage />
             </Route>
-            <Redirect to="/auth" />
+            <Redirect to="/" />
         </Switch>
     )
 }

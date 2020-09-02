@@ -27,10 +27,7 @@ const ProjectPage: React.FC<IProjectPageProps> = props => {
 
     const projects = props.list.map((p: IProjectState, i: number) => (
         <ListItem>
-            <ProjectPreview
-                {...p}
-                key={i}
-            />
+            <ProjectPreview {...p} key={i} />
         </ListItem>
     ))
 

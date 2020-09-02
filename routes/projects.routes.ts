@@ -15,4 +15,20 @@ router.get('/', async (req: Request, res: Response) => {
     }
 })
 
+// /api/projects/123
+// /api/projects/13
+// /api/projects/1 ...
+router.get('/:id', async (req: Request, res: Response) => {
+    const { id } = req.params
+    try {
+        const project = await Project.findById(id)
+
+        return res.status(201).json({ message: 'Project was found', project })
+    } catch (e) {
+        console.error(`Can't find project with id ${id}. See full error: ${e}`)
+        return res.status(500).json({ message: `Can't find project with id ${id}. See full error: ${e}` })
+    }
+})
+
+
 export default router

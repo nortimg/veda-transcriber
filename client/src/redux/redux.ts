@@ -9,6 +9,7 @@ import { newProjectReducer } from './new-project/new-project.reducer'
 import { newProjectWatcher } from './new-project/new-project.sagas'
 import { projectsReducer } from './projects/projects.reducer'
 import { projectsWatcher } from './projects/projects.sagas'
+import { projectWatcher } from './project/project.sagas'
 
 export const rootReducer = combineReducers<IState>({
     auth: authReducer,
@@ -21,6 +22,7 @@ export const rootReducer = combineReducers<IState>({
 export function* rootSaga() {
     yield all([
         authWatcher(),
+        projectWatcher(), 
         projectsWatcher(),
         newProjectWatcher()
     ])
