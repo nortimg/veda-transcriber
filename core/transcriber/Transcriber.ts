@@ -1,5 +1,5 @@
 import { Stream } from 'stream';
 
 export abstract class Transcriber {
-    public static transcribe(fileStream: ReadableStream) {}
+    public static transcribe(filePath: string) {}
 }

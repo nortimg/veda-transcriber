@@ -4,10 +4,12 @@
   "description": "A transcribing app to glorify our great Gurus!",
   "main": "app.ts",
   "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.0.20",
     "@types/bcryptjs": "^2.4.2",
     "@types/config": "0.0.36",
     "@types/express": "^4.17.7",
     "@types/express-validator": "^3.0.0",
+    "@types/jest": "^26.0.12",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/mime-types": "^2.1.0",
     "@types/mongoose": "^5.7.32",
@@ -18,10 +20,13 @@
     "express": "^4.17.1",
     "express-validator": "^6.6.0",
     "get-audio-duration": "^2.0.3",
+    "jest": "^26.4.2",
     "jsonwebtoken": "^8.5.1",
+    "media-split": "^5.1.1",
     "mime-types": "^2.1.27",
     "mongoose": "^5.9.25",
     "multer": "^1.4.2",
+    "ts-jest": "^26.3.0",
     "ts-node": "^8.10.2",
     "typescript": "^3.7.5"
   },
@@ -35,11 +40,20 @@
     "client": "npm run start --prefix client",
     "client:install": "npm i --prefix client",
     "client:build": "npm run build --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "test": "jest",
+    "test:server": "jest --testPathIgnorePatterns='./client/*'",
+    "test:client": "jest ./client"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nortimg/veda-transcriber.git"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest",
+      "^.+\\.tsx?$": "ts-jest"
+    }
   },
   "author": "Liao Ha",
   "license": "ISC",

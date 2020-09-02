@@ -1,3 +1,4 @@
+import fs from 'fs'
 import { Router, Request, Response } from 'express'
 import Project, { IProjectModel, IProject } from '../models/Project'
 import { uploadMiddleware } from '../storage/Storage';
@@ -5,6 +6,7 @@ import User from '../models/User';
 import { Types } from 'mongoose';
 import { Lecture } from '../core/Lecture';
 import path from 'path'
+import { WitAI } from '../core/transcriber/WitAI';
 
 const router = Router()
 
@@ -80,8 +82,7 @@ router.post('/transcribe', async (req: Request, res: Response) => {
         const { email } = project.author
 
         const filePath = path.resolve(__dirname, `../storage/users/${email}/${project.sources.filename}`)
-
-        console.log({ project, filePath })
+        const result = WitAI.transcribe(filePath)
 
         return res.status(201).json({ message: 'The file was found and sent for recognizing' })
     } catch (e) {

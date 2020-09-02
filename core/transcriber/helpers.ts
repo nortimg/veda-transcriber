@@ -1,0 +1,1 @@
+export type range = string // '10:10'
