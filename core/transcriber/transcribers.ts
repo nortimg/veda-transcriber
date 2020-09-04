@@ -1,4 +1,4 @@
-import { WitAI } from './WitAI';
+import { WitAI } from './WitAI/WitAI';
 
 export const transcribers = {
     wit: WitAI,

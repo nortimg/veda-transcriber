@@ -1,11 +1,8 @@
-import { Transcriber } from './Transcriber';
+import { Transcriber } from '../Transcriber';
 import { getAudioDurationInSeconds } from 'get-audio-duration'
-import { Readable } from 'stream';
 import fs from 'fs';
 import axios from 'axios'
-import { range, ISTTServiceRequestBody } from './helpers';
-import { AudioRange } from './Range';
-
+import { ISTTServiceRequestBody } from '../helpers';
 // The wit.ai speech to text recognition service
 
 interface IWitAITokens {
@@ -38,8 +35,10 @@ export class WitAI extends Transcriber {
                         reject(e)
                     }
 
-                    const value = { range: buffer, language: 'RU' }
+                    const value = { range: buffer, language }
                     resolve(value)
+
+                    return
                 })
             })
                 .then(async (value) => await this.sendToSTTService(value))

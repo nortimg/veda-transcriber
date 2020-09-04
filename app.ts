@@ -5,6 +5,7 @@ import mongoose from 'mongoose'
 import authRoutes from './routes/auth.routes'
 import projectRoutes from './routes/project.routes'
 import projectsRoutes from './routes/projects.routes'
+import { prepareApplication } from './utils/prepareApplication'
 
 const app = express()
 
@@ -15,6 +16,12 @@ app.use('/api/project', projectRoutes)
 app.use('/api/projects', projectsRoutes)
 
 const PORT = config.get('port') || 5000
+
+{
+    (async () => {
+        await prepareApplication()
+    })()
+}
 
 async function start() {
     try {
