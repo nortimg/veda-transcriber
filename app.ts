@@ -19,11 +19,11 @@ app.use('/api/projects', projectsRoutes)
 
 const PORT = config.get('port') || 5000
 
-{
-    (async () => {
-        await prepareApplication()
-    })()
-}
+// {
+//     (async () => {
+//         await prepareApplication()
+//     })()
+// }
 
 async function start() {
     try {
