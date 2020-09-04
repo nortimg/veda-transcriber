@@ -44,6 +44,8 @@ export class WitAI extends Transcriber {
                 .then(async (value) => await this.sendToSTTService(value))
                 .catch(e => console.error(`WitAI.trancribe file reading error: ${e}`))
         }
+
+        return {}
     }
 
     // This method returns an array, and the size of it is a ranges count

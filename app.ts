@@ -1,6 +1,8 @@
+import path from 'path'
 import express from 'express'
 import config from 'config'
 import mongoose from 'mongoose'
+import environment from 'dotenv'
 
 import authRoutes from './routes/auth.routes'
 import projectRoutes from './routes/project.routes'
