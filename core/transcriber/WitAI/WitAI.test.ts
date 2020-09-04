@@ -1,16 +1,22 @@
 import path from 'path'
 import { WitAI } from './WitAI'
 import { testUserName } from '../../../utils/constants'
+import getAudioDurationInSeconds from 'get-audio-duration'
+import { IWitAIResponse } from '../helpers'
 
-describe('Tests for WitAI.transcribe', () => {
-    const filePath = path.resolve(`storage/users/${testUserName}/test.mp3`)
-    const transcriberRequest = () => WitAI.transcribe(filePath, 'EN')
 
-    let result: {
-        text: string
-    }
+const getFilePath = (isLong: boolean) => path.resolve(`storage/users/${testUserName}/test${isLong ? '.long' : ''}.mp3`)
+const transcriberRequest = (filePath: string) => WitAI.transcribe(filePath, 'EN')
+
+
+
+describe('WitAI.transcribe method test (with short files)', () => {
+    const filePath = getFilePath(false)    
+
+    let result: IWitAIResponse
+
     beforeAll(async () => {
-        result = await transcriberRequest()
+        result = await transcriberRequest(filePath)
     }, 7000)
 
     it('should be defined', () => {
@@ -18,11 +24,29 @@ describe('Tests for WitAI.transcribe', () => {
     })
 
     it('should be an instance of Promise', () => {
-        expect(transcriberRequest()).toBeInstanceOf(Promise)
+        expect(transcriberRequest(filePath)).toBeInstanceOf(Promise)
     })
 
     it('should return an object that have a text property', async () => {
         expect(result).toHaveProperty('text')
         expect(result.text.length).toBeGreaterThan(0)
+    })
+})
+
+describe('WitAI.transcribe method test (with long files)', () => {
+    const filePath = getFilePath(true)
+    let duration: number
+    beforeAll(async () => {
+        duration = await getAudioDurationInSeconds(filePath)
+    }, 5000)
+
+    it('the duration of file should be greater than 10 seconds', async () => {
+        expect(duration).toBeGreaterThan(10)
+    })
+
+    it('should return an object with the text property', async () => {
+        const response: IWitAIResponse = await transcriberRequest(filePath)
+        expect(response).toHaveProperty('text')
+        console.log('response: ', response)
     })
 })

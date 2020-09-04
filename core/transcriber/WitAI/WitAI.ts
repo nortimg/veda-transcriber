@@ -3,6 +3,8 @@ import { getAudioDurationInSeconds } from 'get-audio-duration'
 import fs from 'fs';
 import axios from 'axios'
 import { ISTTServiceRequestBody } from '../helpers';
+import { AudioRange } from '../Range';
+import { secondsToHHMMSS } from '../../../utils/time';
 // The wit.ai speech to text recognition service
 
 interface IWitAITokens {
@@ -45,13 +47,15 @@ export class WitAI extends Transcriber {
                 .catch(e => console.error(`WitAI.trancribe file reading error: ${e}`))
         }
 
-        return {}
+        const ranges = this.allocRangesArray(duration)
+        const filled = this.fillRanges(ranges, filePath)
     }
 
     // This method returns an array, and the size of it is a ranges count
-    private static async allocRangesArray(duration: number) {
+    private static allocRangesArray(duration: number) {
         const rangesCount = Math.ceil(duration / this.rangeDurationInSeconds)
-        return new Array(rangesCount)
+        return new Array<null>(rangesCount)
+            .fill(null)
     }
 
     private static async sendToSTTService({ range, language }: ISTTServiceRequestBody) {
@@ -71,5 +75,27 @@ export class WitAI extends Transcriber {
         })
 
         return res.data
+    }
+
+    private static fillRanges(emptyRangesArray: null[], filePath: string) {
+        return emptyRangesArray.map((_emptyEl, i) => {
+            const from = i * this.rangeDurationInSeconds
+            const to = from + this.rangeDurationInSeconds
+
+            return new AudioRange(
+                secondsToHHMMSS(from),
+                secondsToHHMMSS(to),
+                {
+                    full: {
+                        path: filePath
+                    },
+                    range: null // still is not done
+                }
+            )
+        })
+    }
+
+    private static async sendLongFileToSTT() {
+
     }
 }
