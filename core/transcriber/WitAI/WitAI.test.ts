@@ -5,7 +5,7 @@ import getAudioDurationInSeconds from 'get-audio-duration'
 import { IWitAIResponse } from '../helpers'
 
 
-const getFilePath = (isLong: boolean) => path.resolve(`storage/users/${testUserName}/test${isLong ? '.long' : ''}.mp3`)
+const getFilePath = (isLong: boolean) => path.resolve(`storage/users/${testUserName}/test${isLong ? 'Long' : ''}.mp3`)
 const transcriberRequest = (filePath: string) => WitAI.transcribe(filePath, 'EN')
 
 
@@ -47,6 +47,5 @@ describe('WitAI.transcribe method test (with long files)', () => {
     it('should return an object with the text property', async () => {
         const response: IWitAIResponse = await transcriberRequest(filePath)
         expect(response).toHaveProperty('text')
-        console.log('response: ', response)
-    })
+    }, 15000)
 })

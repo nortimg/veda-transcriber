@@ -2,9 +2,10 @@ import { Transcriber } from '../Transcriber';
 import { getAudioDurationInSeconds } from 'get-audio-duration'
 import fs from 'fs';
 import axios from 'axios'
-import { ISTTServiceRequestBody } from '../helpers';
+import { ISTTServiceRequestBody, IWitAIResponse } from '../helpers';
 import { AudioRange } from '../Range';
 import { secondsToHHMMSS } from '../../../utils/time';
+import { findInTemp } from '../../../utils/files';
 // The wit.ai speech to text recognition service
 
 interface IWitAITokens {
@@ -49,6 +50,18 @@ export class WitAI extends Transcriber {
 
         const ranges = this.allocRangesArray(duration)
         const filled = this.fillRanges(ranges, filePath)
+        const result = await this.sendLongFileToSTT(filled, language)
+
+        return result
+    }
+
+    private static getHeaders(language: string) {
+        return {
+            'Accept': 'audio/x-mpeg-3',
+            'Authorization': `Bearer ${this.tokens[language]}`,
+            'Content-Type': 'audio/mpeg3',
+            'Transfer-Encoding': 'chunked'
+        }
     }
 
     // This method returns an array, and the size of it is a ranges count
@@ -65,10 +78,9 @@ export class WitAI extends Transcriber {
             'Content-Type': 'audio/mpeg3',
             'Transfer-Encoding': 'chunked'
         }
-        const url = this.endpointURL
 
         const res = await axios({
-            url,
+            url: this.endpointURL,
             method: 'POST',
             data: range,
             headers
@@ -95,7 +107,23 @@ export class WitAI extends Transcriber {
         })
     }
 
-    private static async sendLongFileToSTT() {
+    private static async sendLongFileToSTT(ranges: AudioRange[], language: string): Promise<IWitAIResponse> {
+        const pendingRanges = ranges.map(async (range, i) => {
+            const split = await range.split
+            const buffer = await findInTemp(split.name)
+            const res = await axios({
+                url: this.endpointURL,
+                method: 'POST',
+                data: buffer,
+                headers: this.getHeaders(language)
+            })
 
+            return res.data.text
+        })
+
+        const doneRanges = await Promise.all(pendingRanges)
+        const resultText = doneRanges.join('')
+
+        return { text: resultText }
     }
 }

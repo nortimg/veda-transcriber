@@ -1,16 +1,17 @@
 import { createRange } from '../../utils/time'
 import { IAudioFile } from './helpers'
 import { runInThisContext } from 'vm'
-import { audioSplitter } from '../../utils/audioSplitter'
+import { audioSplitter, IFragment } from '../../utils/audioSplitter'
+import { tempDirPath } from '../../utils/constants'
 
 interface IRange {
     from: string // 'minute:second' ('01:50') 
     to: string
     result: string | null // by default is null
-    file: IRangeFileLink
+    files: IRangeFiles
 }
 
-interface IRangeFileLink {
+interface IRangeFiles {
     full: { path: string }
     range: { path: string } | null
 }
@@ -19,11 +20,11 @@ export class AudioRange implements IRange {
     private _from: string
     private _to: string
     private _result: string | null = null
-    private _file: IRangeFileLink
-    constructor(from: string, to: string, file: IRangeFileLink) {
+    private _files: IRangeFiles
+    constructor(from: string, to: string, files: IRangeFiles) {
         this._from = from
         this._to = to
-        this._file = file
+        this._files = files
     }
 
     set result(result: string | null) {
@@ -46,19 +47,29 @@ export class AudioRange implements IRange {
         return this._to
     }
 
-    get file() {
-        return this._file
+    get files() {
+        return this._files
     }
 
-    set rangeFilePath(filePath: string) {
-        this.file.range = {
-            path: filePath
+    set rangeFilePath(fileName: string) {
+        this.files.range = {
+            path: `${tempDirPath}/${fileName}`
         }
     }
 
-    // async makeSplit() {
-    //     const range = createRange(this.from, this.to)
-    //     const split = await audioSplitter(this.file.full.path, range)
-    //     return this.rangeFilePath = 
-    // }
+    get ranges() {
+        return createRange(this.from, this.to)
+    }
+
+    get split() {
+        return new Promise<IFragment>(async (resolve, reject) => {
+            try {
+                const uniqueName = `${Date.now()}-${createRange(this.from, this.to)}`
+                const split = await audioSplitter(this.files.full.path, `${this.ranges} ${uniqueName}`)
+                return resolve(split)
+            } catch (e) {
+                return reject(e)
+            }
+        })
+    }
 }
