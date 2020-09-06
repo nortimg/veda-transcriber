@@ -1,7 +1,7 @@
 import { Transcriber } from '../Transcriber';
 import { getAudioDurationInSeconds } from 'get-audio-duration'
 import fs from 'fs';
-import axios from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 import { ISTTServiceRequestBody, IWitAIResponse } from '../helpers';
 import { AudioRange } from '../Range';
 import { secondsToHHMMSS } from '../../../utils/time';
@@ -10,6 +10,13 @@ import { findInTemp } from '../../../utils/files';
 
 interface IWitAITokens {
     [key: string]: string
+}
+
+interface IRequestBodyHeaders {
+    Accept: string;
+    Authorization: string;
+    'Content-Type': string;
+    'Transfer-Encoding': string;
 }
 
 export class WitAI extends Transcriber {
@@ -64,6 +71,15 @@ export class WitAI extends Transcriber {
         }
     }
 
+    private static getRequestConfig(range: Buffer, language: string): AxiosRequestConfig {
+        return {
+            url: this.endpointURL,
+            method: 'POST',
+            data: range,
+            headers: this.getHeaders(language)
+        }
+    }
+
     // This method returns an array, and the size of it is a ranges count
     private static allocRangesArray(duration: number) {
         const rangesCount = Math.ceil(duration / this.rangeDurationInSeconds)
@@ -72,19 +88,8 @@ export class WitAI extends Transcriber {
     }
 
     private static async sendToSTTService({ range, language }: ISTTServiceRequestBody) {
-        const headers = {
-            'Accept': 'audio/x-mpeg-3',
-            'Authorization': `Bearer ${this.tokens[language]}`,
-            'Content-Type': 'audio/mpeg3',
-            'Transfer-Encoding': 'chunked'
-        }
-
-        const res = await axios({
-            url: this.endpointURL,
-            method: 'POST',
-            data: range,
-            headers
-        })
+        const config = this.getRequestConfig(range, language)
+        const res = await axios(config)
 
         return res.data
     }
@@ -107,23 +112,19 @@ export class WitAI extends Transcriber {
         })
     }
 
-    private static async sendLongFileToSTT(ranges: AudioRange[], language: string): Promise<IWitAIResponse> {
-        const pendingRanges = ranges.map(async (range, i) => {
+    private static async sendLongFileToSTT(ranges: AudioRange[], language: string): Promise<string> {
+        const pendingRanges = ranges.map(async range => {
             const split = await range.split
             const buffer = await findInTemp(split.name)
-            const res = await axios({
-                url: this.endpointURL,
-                method: 'POST',
-                data: buffer,
-                headers: this.getHeaders(language)
-            })
+            if (!buffer) {
+                return
+            }
+            const data = await this.sendToSTTService({range: buffer, language})
 
-            return res.data.text
+            return data.text
         })
 
         const doneRanges = await Promise.all(pendingRanges)
-        const resultText = doneRanges.join('')
-
-        return { text: resultText }
+        return doneRanges.join('')
     }
 }
